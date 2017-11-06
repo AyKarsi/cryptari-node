@@ -1,17 +1,8 @@
 const chai = require('chai');
 const assert = chai.assert;
-const ioc = require('electrolyte');
-ioc.use(ioc.dir(__dirname + './../lib'));
-ioc.use(ioc.dir(__dirname + './../lib/local'));
-ioc.use(ioc.node_modules());
-
-
+const localEncrypt = require('./../lib/local/localEncrypt');
+const localDecrypt = require('./../lib/local/localDecrypt');
 describe('local encrypt/decrypt roundtrip', function() {
-	var localEncrypt,localDecrypt;
-	before(async function(){
-		localEncrypt = await ioc.create('localEncrypt');
-		localDecrypt = await ioc.create('localDecrypt');
-	});
 	describe('can encrypt and decrypt a string',function() {
 		it('can retrieve a key, if given a clientId and a resourceId', async function() {
 			let dataKey = await localEncrypt.generateDataKey();

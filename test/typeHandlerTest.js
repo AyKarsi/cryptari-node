@@ -1,15 +1,7 @@
 const chai = require('chai');
 const assert = chai.assert;
-const ioc = require('electrolyte');
-ioc.use(ioc.dir(__dirname + './../lib'));
-ioc.use(ioc.node_modules());
-
-
+const typeHandler = require('./../lib/typeHandler');
 describe('typeHandler', function() {
-	var typeHandler;
-	before(async function(){
-		typeHandler = await ioc.create('typeHandler');
-	});
 	describe('forEncryption',function() {
 		it('can parse a string', async function() {
 			let res = typeHandler.forEncryption('hello');

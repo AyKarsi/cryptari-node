@@ -1,15 +1,9 @@
 const chai = require('chai');
 const assert = chai.assert;
-const ioc = require('electrolyte');
-ioc.use(ioc.dir(__dirname + './../lib'));
-ioc.use(ioc.node_modules());
+const encryptValue = require('./../lib/encryptValue');
+const decryptValue = require('./../lib/decryptValue');
 
 describe('encrypt / decrypt value', function() {
-	var encryptValue,decryptValue;
-	before(async function() {
-		encryptValue = await ioc.create('encryptValue');
-		decryptValue = await ioc.create('decryptValue');
-	});
 	it('can encrypt and decrypt a single string', async function() {
 		let testVal = 'helloworld';
 		let encrypted = await encryptValue(testVal);

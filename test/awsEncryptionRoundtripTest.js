@@ -1,17 +1,10 @@
 const chai = require('chai');
 const assert = chai.assert;
-const ioc = require('electrolyte');
-ioc.use(ioc.dir(__dirname + './../lib'));
-ioc.use(ioc.dir(__dirname + './../lib/aws'));
-ioc.use(ioc.node_modules());
+const awsEncrypt = require('../lib/aws/awsEncrypt');
+const awsDecrypt = require ('../lib/aws/awsDecrypt');
 
 
 describe('aws encrypt/decrypt roundtrip', function() {
-	var awsEncrypt,awsDecrypt;
-	before(async function(){
-		awsEncrypt = await ioc.create('awsEncrypt');
-		awsDecrypt = await ioc.create('awsDecrypt');
-	});
 	describe('can encrypt and decrypt a string',function() {
 		it('can retrieve a key, if given a clientId and a resourceId', async function() {
 			let dataKey = await awsEncrypt.generateDataKey();

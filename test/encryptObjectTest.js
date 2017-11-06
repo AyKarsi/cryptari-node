@@ -1,18 +1,12 @@
 const chai = require('chai');
 const assert = chai.assert;
 const jp = require('jsonpath');
-const ioc = require('electrolyte');
-ioc.use(ioc.dir(__dirname + './../lib'));
-ioc.use(ioc.node_modules());
+const encryptObject = require('./../lib/encryptObject');
+const decryptarify = require('./../lib/decryptarify');
+const userRecordExample = require('./sampleData/userRecordExample');
 
 
 describe('encryptObject', function() {
-	var encryptObject,decryptarify;
-	const userRecordExample = require('./sampleData/userRecordExample');
-	before(async function() {
-		encryptObject = await ioc.create('encryptObject');
-		decryptarify = await ioc.create('decryptarify');
-	});
 	it('can encrypt a single property on a obejct', async function() {
 		let obj = {
 			foo:'123',

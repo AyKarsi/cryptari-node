@@ -1,15 +1,8 @@
 const chai = require('chai');
 const assert = chai.assert;
-const ioc = require('electrolyte');
-ioc.use(ioc.dir(__dirname + './../lib'));
-ioc.use(ioc.node_modules());
-
+const decryptarify = require('./../lib/decryptarify');
 
 describe('decryptarify', function() {
-	var decryptarify;
-	before(async function(){
-		decryptarify = await ioc.create('decryptarify');
-	});
 	it('can turn a find _crypatri strings in a stringified object and turn them into encryption objects', async function() {
 		let obj = {
 			foo:'_cryptari.a123.a456.string'

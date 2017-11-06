@@ -25,18 +25,12 @@
 		"aes-js": "^3.1.0",
 		"aws-sdk": "^2.142.0",
 		"config": "^1.27.0",
-		"connect": "^3.6.5",
-		"electrolyte": "^0.5.0",
 		"jsonpath": "^1.0.0",
-		"lodash": "^4.17.4",
-		"path-to-regexp": "^2.1.0",
-		"request": "^2.83.0"
+		"lodash": "^4.17.4"
 	},
 	"devDependencies": {
 		"chai": "^3.5.0",
-		"chai-http": "^3.0.0",
 		"cross-env": "^5.1.1",
-		"mocha": "^4.0.1",
-		"supertest": "^3.0.0"
+		"mocha": "^4.0.1"
 	}
 }

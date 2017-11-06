@@ -1,15 +1,8 @@
 const chai = require('chai');
 const assert = chai.assert;
-const ioc = require('electrolyte');
-ioc.use(ioc.dir(__dirname + './../lib'));
-ioc.use(ioc.node_modules());
-
+const cryptarify = require('./../lib/cryptarify');
 
 describe('cryptarify', function() {
-	var cryptarify;
-	before(async function(){
-		cryptarify = await ioc.create('cryptarify');
-	});
 	it('can create a crypari encrypted string', async function() {
 		let encObject =  {
 			dataKeyEncryptedHex:'123',
