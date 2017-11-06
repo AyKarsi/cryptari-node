@@ -4,6 +4,7 @@ const localEncrypt = require('./local/localEncrypt');
 const localDecrypt = require('./local/localDecrypt');
 const config = require('config');
 var encryptor;
+console.log('config',config);
 if (config.useLocal) {
 	console.log('using local encryption. not intended for production use');
 	encryptor = localEncrypt;

@@ -1,5 +1,7 @@
 scripts/setAws.sh
 
+build/
+
 # Logs
 logs
 *.log
