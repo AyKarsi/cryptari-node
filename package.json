@@ -1,0 +1,42 @@
+{
+	"name": "cryptari",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"start": "cross-env node index",
+		"watch": "nodemon --exec npm run start",
+		"test": "cross-env NODE_ENV=test mocha",
+		"test-watch": "cross-env NODE_ENV=test nodemon --exec npm run test",
+		"test-debug": "cross-env NODE_ENV=test mocha --inspect --inspect-brk",
+		"test-watch-debug": "nodemon --exec npm run test-debug"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/AyKarsi/cryptari.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/AyKarsi/cryptari/issues"
+	},
+	"homepage": "https://github.com/AyKarsi/cryptari#readme",
+	"dependencies": {
+		"aes-js": "^3.1.0",
+		"aws-sdk": "^2.142.0",
+		"config": "^1.27.0",
+		"connect": "^3.6.5",
+		"electrolyte": "^0.5.0",
+		"jsonpath": "^1.0.0",
+		"lodash": "^4.17.4",
+		"path-to-regexp": "^2.1.0",
+		"request": "^2.83.0"
+	},
+	"devDependencies": {
+		"chai": "^3.5.0",
+		"chai-http": "^3.0.0",
+		"cross-env": "^5.1.1",
+		"mocha": "^4.0.1",
+		"supertest": "^3.0.0"
+	}
+}
