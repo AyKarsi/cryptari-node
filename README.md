@@ -1,3 +1,5 @@
+[![Known Vulnerabilities](https://snyk.io/test/github/aykarsi/cryptari/badge.svg)](https://snyk.io/test/github/aykarsi/cryptari)
+
 # cryptari for node.js
 
 
