@@ -1,5 +1,6 @@
 const forEncryption = function(val) {
 	let type = typeof val;
+	debugger;
 	let valBytes;
 	switch (type) {
 		case 'string':
@@ -15,6 +16,14 @@ const forEncryption = function(val) {
 			if (Object.prototype.toString.call(val) === '[object Date]'){
 				valBytes = Buffer(val.getTime().toString());
 				type = 'date';
+			}else {
+				try {
+					let json = JSON.stringify(val);
+					valBytes = Buffer.from(json);
+					type = 'object';
+				}catch(ex) {
+					console.error('cryptari: could not convert object to buffer',ex);
+				}
 			}
 			break;
 	}
@@ -39,6 +48,13 @@ const fromEncryption = function (val, type) {
 		case 'number':
 			res  = parseFloat(val);
 			break;
+		case 'object':
+			try {
+				res = JSON.parse(val);
+			}
+			catch(ex) {
+				console.error('cryptari: could not parse decrypted value of type  object',ex);
+			}
 	}
 	return res;
 };

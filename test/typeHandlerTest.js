@@ -24,6 +24,24 @@ describe('typeHandler', function() {
 			assert.equal(res.valBytes.toString(),num.toString());
 			assert.equal(res.type, 'number');
 		});
+		it('can parse an object', async function() {
+			let obj = {
+				test:'123'
+			};
+			let res = typeHandler.forEncryption(obj);
+			assert(!!res);
+			assert.equal(res.valBytes.toString(),JSON.stringify(obj));
+			assert.equal(res.type, 'object');
+		});
+		it('can parse an array', async function() {
+			let obj = [{
+				test:'123'
+			}];
+			let res = typeHandler.forEncryption(obj);
+			assert(!!res);
+			assert.equal(res.valBytes.toString(),JSON.stringify(obj));
+			assert.equal(res.type, 'object');
+		});
 	});
 	describe('fromEncryption',function() {
 		it('can parse a string', async function() {
@@ -61,7 +79,34 @@ describe('typeHandler', function() {
 			let res2 = typeHandler.fromEncryption(valString,res.type);
 			assert.equal(typeof res2, 'number');
 			assert.equal(res2, num);
+		});
+		it('can parse an object', async function() {
+			let obj = {
+				test:'123'
+			};
+			let res = typeHandler.forEncryption(obj);
+			assert(!!res);
+			let valString = res.valBytes.toString();
+			assert.equal(valString,JSON.stringify(obj));
+			assert.equal(res.type, 'object');
 
+			let res2 = typeHandler.fromEncryption(valString,res.type);
+			assert.equal(typeof res2, 'object');
+			assert.equal(JSON.stringify(res2), JSON.stringify(obj));
+		});
+		it('can parse an array', async function() {
+			let obj = [{
+				test:'123'
+			}];
+			let res = typeHandler.forEncryption(obj);
+			assert(!!res);
+			let valString = res.valBytes.toString();
+			assert.equal(valString,JSON.stringify(obj));
+			assert.equal(res.type, 'object');
+
+			let res2 = typeHandler.fromEncryption(valString,res.type);
+			assert.equal(typeof res2, 'object');
+			assert.equal(JSON.stringify(res2), JSON.stringify(obj));
 		});
 	});
 
