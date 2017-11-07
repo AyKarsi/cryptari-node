@@ -7,10 +7,12 @@ const decryptDataKey = async function(dataKeyEncryptedHex) {
 		let aesCtrMaster = new aesjs.ModeOfOperation.ctr(masterKey, new aesjs.Counter(5));
 		let dataKeyEncryptedBytes = aesjs.utils.hex.toBytes(dataKeyEncryptedHex);
 		let decryptedDataKeyBytes = aesCtrMaster.decrypt(dataKeyEncryptedBytes);
+
 		return decryptedDataKeyBytes;
 	} catch (ex) {
-		console.log('error decrypting ', ex);
-		return ex;
+		debugger;
+		console.error('error decrypting decryptDataKey',dataKeyEncryptedHex, ex);
+		return;
 	}
 };
 const decrypt = function(encryptedHex, decryptedDataKeyBytes) {
@@ -20,10 +22,11 @@ const decrypt = function(encryptedHex, decryptedDataKeyBytes) {
 		let decryptedBytes = aesCtr.decrypt(encryptedBytes);
 		return aesjs.utils.utf8.fromBytes(decryptedBytes);
 	} catch (ex) {
-		console.log('error decrypting ', ex);
-		return ex;
+		console.error('error decrypting value',encryptedHex, ex);
+		return ;
 	}
 };
+
 
 module.exports = {
 	decryptDataKey: decryptDataKey,

@@ -23,6 +23,9 @@ const toEncryptedObject = function(cryptariString) {
 		return null;
 	}
 	let parts = cryptariString.split('.');
+	if (!parts || parts.length < 3) {
+		return cryptariString;
+	}
 	return {
 		dataKey: parts[1],
 		encryptedValue: parts[2],

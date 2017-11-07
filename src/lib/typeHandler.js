@@ -1,6 +1,9 @@
 const forEncryption = function(val) {
 	let type = typeof val;
-	debugger;
+	if (val === null || (typeof val === 'undefined')){
+		return;
+	}
+
 	let valBytes;
 	switch (type) {
 		case 'string':
@@ -36,6 +39,9 @@ const forEncryption = function(val) {
 	};
 };
 const fromEncryption = function (val, type) {
+	if (val === null || (typeof val === 'undefined')){
+		return;
+	}
 	let res;
 	switch (type) {
 		case 'string':

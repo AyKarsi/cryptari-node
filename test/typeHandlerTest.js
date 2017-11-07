@@ -42,6 +42,14 @@ describe('typeHandler', function() {
 			assert.equal(res.valBytes.toString(),JSON.stringify(obj));
 			assert.equal(res.type, 'object');
 		});
+		it('can handle a null value', async function() {
+			let res = typeHandler.forEncryption(null);
+			assert(!res);
+		});
+		it('can handle an undefined value', async function() {
+			let res = typeHandler.forEncryption(undefined);
+			assert(!res);
+		});
 	});
 	describe('fromEncryption',function() {
 		it('can parse a string', async function() {
@@ -108,6 +116,15 @@ describe('typeHandler', function() {
 			assert.equal(typeof res2, 'object');
 			assert.equal(JSON.stringify(res2), JSON.stringify(obj));
 		});
+		it('can handle a null value', async function() {
+			let res = typeHandler.fromEncryption(null);
+			assert(!res);
+		});
+		it('can handle an undefined value', async function() {
+			let res = typeHandler.fromEncryption(undefined);
+			assert(!res);
+		});
+
 	});
 
 });
