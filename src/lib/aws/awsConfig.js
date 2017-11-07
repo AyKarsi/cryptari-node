@@ -1,0 +1,16 @@
+const CRYPTARI_AWS_ACCESS_KEY_ID = process.env.CRYPTARI_AWS_ACCESS_KEY_ID;
+const CRYPTARI_AWS_SECRET_ACCESS_KEY = process.env.CRYPTARI_AWS_SECRET_ACCESS_KEY;
+const CRYPTARI_AWS_CMK_ID = process.env.CRYPTARI_AWS_CMK_ID;
+const CRYPTARI_AWS_REGION = process.env.CRYPTARI_AWS_REGION;
+
+let awsConfigured = false;
+if (CRYPTARI_AWS_ACCESS_KEY_ID && CRYPTARI_AWS_SECRET_ACCESS_KEY && CRYPTARI_AWS_CMK_ID && CRYPTARI_AWS_REGION){
+	awsConfigured = true;
+}
+module.exports = {
+	awsConfigured:awsConfigured,
+	accessKeyId:CRYPTARI_AWS_ACCESS_KEY_ID,
+	secretAccessKey:CRYPTARI_AWS_SECRET_ACCESS_KEY,
+	cmkKeyId:CRYPTARI_AWS_CMK_ID,
+	region:CRYPTARI_AWS_REGION
+};

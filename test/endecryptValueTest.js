@@ -1,7 +1,7 @@
 const chai = require('chai');
 const assert = chai.assert;
-const encryptValue = require('./../lib/encryptValue');
-const decryptValue = require('./../lib/decryptValue');
+const encryptValue = require('./../src/lib/encryptValue');
+const decryptValue = require('./../src/lib/decryptValue');
 
 describe('encrypt / decrypt value', function() {
 	it('can encrypt and decrypt a single string', async function() {

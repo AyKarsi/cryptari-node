@@ -1,7 +1,7 @@
 const chai = require('chai');
 const assert = chai.assert;
-const localEncrypt = require('./../lib/local/localEncrypt');
-const localDecrypt = require('./../lib/local/localDecrypt');
+const localEncrypt = require('./../src/lib/local/localEncrypt');
+const localDecrypt = require('./../src/lib/local/localDecrypt');
 describe('local encrypt/decrypt roundtrip', function() {
 	describe('can encrypt and decrypt a string',function() {
 		it('can retrieve a key, if given a clientId and a resourceId', async function() {

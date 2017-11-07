@@ -1,11 +1,8 @@
 const aesjs = require('aes-js');
 const kms = require('./kms');
 const typeHandler = require('./../typeHandler');
-const config = require('config');
-let keyId;
-if (config && config.aws && config.aws.AWS_REGION) {
-	keyId = config.aws.AWS_CMK_ID;
-}
+const config = require('./awsConfig');
+let keyId = config.cmkKeyId;
 
 const params = {
 	KeyId: keyId,

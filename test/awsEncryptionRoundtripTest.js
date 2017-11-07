@@ -1,12 +1,16 @@
 const chai = require('chai');
 const assert = chai.assert;
-const awsEncrypt = require('../lib/aws/awsEncrypt');
-const awsDecrypt = require ('../lib/aws/awsDecrypt');
-
+const awsConfig = require('../src/lib/aws/awsConfig');
+const awsEncrypt = require('../src/lib/aws/awsEncrypt');
+const awsDecrypt = require ('../src/lib/aws/awsDecrypt');
 
 describe('aws encrypt/decrypt roundtrip', function() {
 	describe('can encrypt and decrypt a string',function() {
 		it('can retrieve a key, if given a clientId and a resourceId', async function() {
+			if (!awsConfig.awsConfigured){
+				console.warn('no aws keys configured. skipping aws tests');
+				return;
+			}
 			let dataKey = await awsEncrypt.generateDataKey();
 			let testString = 'test123';
 			let res = await awsEncrypt.encrypt(dataKey,testString);

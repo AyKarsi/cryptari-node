@@ -1,6 +1,6 @@
 const chai = require('chai');
 const assert = chai.assert;
-const cryptarify = require('./../lib/cryptarify');
+const cryptarify = require('./../src/lib/cryptarify');
 
 describe('cryptarify', function() {
 	it('can create a crypari encrypted string', async function() {

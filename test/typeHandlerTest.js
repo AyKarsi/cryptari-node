@@ -1,6 +1,6 @@
 const chai = require('chai');
 const assert = chai.assert;
-const typeHandler = require('./../lib/typeHandler');
+const typeHandler = require('./../src/lib/typeHandler');
 describe('typeHandler', function() {
 	describe('forEncryption',function() {
 		it('can parse a string', async function() {

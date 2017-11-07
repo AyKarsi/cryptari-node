@@ -1,6 +1,6 @@
 const chai = require('chai');
 const assert = chai.assert;
-const decryptarify = require('./../lib/decryptarify');
+const decryptarify = require('./../src/lib/decryptarify');
 
 describe('decryptarify', function() {
 	it('can turn a find _crypatri strings in a stringified object and turn them into encryption objects', async function() {

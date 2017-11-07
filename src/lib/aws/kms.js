@@ -1,8 +1,7 @@
 const AWS = require('aws-sdk');
-const config = require('config');
-let region = 'eu-central-1';
-if (config && config.aws && config.aws.AWS_REGION) {
-	region = config.aws.AWS_REGION;
+const config = require('./awsConfig');
+let aws;
+if (config.awsConfigured){
+	aws = new AWS.KMS(config);
 }
-AWS.config.update({region: region});
-module.exports = new AWS.KMS();
+module.exports = aws;

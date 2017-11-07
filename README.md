@@ -31,12 +31,27 @@ TODO:
 - Alibaba
 
 
-
 ## installation 
 
 TODO  npm install
 
-## setup 
+## Setup 
+
+### Key Configuration
+If nothing is configured cryptari-node will use a hardcoded and insecure(!) local master key. 
+You can use this for local development.
+
+
+*DO NOT ADD ANY OF THE BELOW IDS/SECRETS TO YOUR SOURCE CODE!* 
+
+### Using AWS KMS
+The following environment variables need to be set to use AWS KMS.
+
+*CRYPTARI_AWS_ACCESS_KEY_ID* the IAM User Id with acccess to the below key
+*CRYPTARI_AWS_SECRET_ACCESS_KEY* the matching secret of the IAM User
+*CRYPTARI_AWS_CMK_ID* the Id of the aws master key
+*CRYPTARI_AWS_REGION* the region where the above key is stored.
+
 
 ### AWS 
 

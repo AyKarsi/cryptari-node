@@ -1,9 +1,9 @@
 const chai = require('chai');
 const assert = chai.assert;
 const jp = require('jsonpath');
-const encryptObject = require('./../lib/encryptObject');
-const decryptObject = require('./../lib/decryptObject');
-const decryptarify = require('./../lib/decryptarify');
+const encryptObject = require('./../src/lib/encryptObject');
+const decryptObject = require('./../src/lib/decryptObject');
+const decryptarify = require('./../src/lib/decryptarify');
 const userRecordExample = require('./sampleData/userRecordExample');
 
 describe('decryptObject', function() {
