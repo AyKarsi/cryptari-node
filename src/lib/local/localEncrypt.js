@@ -1,19 +1,16 @@
 const aesjs = require('aes-js');
 const crypto = require('crypto');
 const getMasterKey = require('./localMasterKey');
-const typeHandler = require('./../typeHandler');
 
-const encrypt = function(dataKey, secretValue) {
+const encrypt = function(dataKey, encObject) {
 	try {
-		let encVal = typeHandler.forEncryption(secretValue);
-		let secretBytes = aesjs.utils.utf8.toBytes(encVal.valString);
 		let aesCtr = new aesjs.ModeOfOperation.ctr(dataKey.plainBytes);
-		let encryptedBytes = aesCtr.encrypt(secretBytes);
+		let encryptedBytes = aesCtr.encrypt(encObject.valBytes);
 		let enc = aesjs.utils.hex.fromBytes(encryptedBytes);
 		return {
 			dataKeyEncryptedHex: dataKey.encryptedHex,
 			encryptedHex: enc,
-			type: encVal.type
+			type: encObject.type
 		};
 	} catch (ex) {
 		console.log('local encryption error:', ex);

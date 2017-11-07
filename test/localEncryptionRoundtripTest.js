@@ -2,6 +2,7 @@ const chai = require('chai');
 const assert = chai.assert;
 const localEncrypt = require('./../src/lib/local/localEncrypt');
 const localDecrypt = require('./../src/lib/local/localDecrypt');
+const typeHandler = require('../src/lib/typeHandler');
 describe('local encrypt/decrypt roundtrip', function() {
 	describe('can encrypt and decrypt a string',function() {
 		it('can retrieve a key, if given a clientId and a resourceId', async function() {
@@ -11,7 +12,8 @@ describe('local encrypt/decrypt roundtrip', function() {
 			assert.equal(typeof dataKey.encryptedHex, 'string');
 
 			let testString = 'test123';
-			let res = await localEncrypt.encrypt(dataKey,testString);
+			let encObject = typeHandler.forEncryption(testString);
+			let res = await localEncrypt.encrypt(dataKey,encObject);
 			assert.isTrue(!!res);
 			assert.equal(typeof res.dataKeyEncryptedHex, 'string');
 			assert.equal(typeof res.encryptedHex, 'string');

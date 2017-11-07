@@ -1,29 +1,29 @@
 const forEncryption = function(val) {
 	let type = typeof val;
-	let valString;
+	let valBytes;
 	switch (type) {
 		case 'string':
-			valString = val;
+			valBytes = Buffer(val);
 			break;
 		case 'date':
-			valString = val.getTime().toString();
+			valBytes = Buffer(val.getTime().toString());
 			break;
 		case 'number':
-			valString = val.toString();
+			valBytes = Buffer(val.toString());
 			break;
 		case 'object':
 			if (Object.prototype.toString.call(val) === '[object Date]'){
-				valString = val.getTime().toString();
+				valBytes = Buffer(val.getTime().toString());
 				type = 'date';
 			}
 			break;
 	}
-	if (!valString) {
+	if (!valBytes) {
 		throw 'unsupport encryption property type ' +type;
 	}
 	return {
 		type:type,
-		valString:valString
+		valBytes:valBytes
 	};
 };
 const fromEncryption = function (val, type) {

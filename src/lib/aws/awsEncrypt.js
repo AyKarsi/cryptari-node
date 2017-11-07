@@ -1,6 +1,5 @@
 const aesjs = require('aes-js');
 const kms = require('./kms');
-const typeHandler = require('./../typeHandler');
 const config = require('./awsConfig');
 let keyId = config.cmkKeyId;
 
@@ -9,17 +8,15 @@ const params = {
 	KeySpec: 'AES_256'
 };
 
-const encrypt = function(dataKey, secretValue) {
+const encrypt = function(dataKey, encObject) {
 	try {
-		let encVal = typeHandler.forEncryption(secretValue);
 		let aesCtr = new aesjs.ModeOfOperation.ctr(dataKey.plainBytes);
-		let bytes = aesjs.utils.utf8.toBytes(encVal.valString);
-		let encryptedBytes = aesCtr.encrypt(bytes);
+		let encryptedBytes = aesCtr.encrypt(encObject.valBytes);
 		let enc = aesjs.utils.hex.fromBytes(encryptedBytes);
 		return {
 			dataKeyEncryptedHex: dataKey.encryptedHex,
 			encryptedHex: enc,
-			type: encVal.type
+			type: encObject.type
 		};
 	} catch (ex) {
 		return ex;

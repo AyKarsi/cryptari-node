@@ -3,6 +3,7 @@ const assert = chai.assert;
 const awsConfig = require('../src/lib/aws/awsConfig');
 const awsEncrypt = require('../src/lib/aws/awsEncrypt');
 const awsDecrypt = require ('../src/lib/aws/awsDecrypt');
+const typeHandler = require('../src/lib/typeHandler');
 
 describe('aws encrypt/decrypt roundtrip', function() {
 	describe('can encrypt and decrypt a string',function() {
@@ -13,7 +14,8 @@ describe('aws encrypt/decrypt roundtrip', function() {
 			}
 			let dataKey = await awsEncrypt.generateDataKey();
 			let testString = 'test123';
-			let res = await awsEncrypt.encrypt(dataKey,testString);
+			let encObject = typeHandler.forEncryption(testString);
+			let res = await awsEncrypt.encrypt(dataKey,encObject);
 			assert.isTrue(!!res);
 			assert.equal(typeof res.dataKeyEncryptedHex, 'string');
 			assert.equal(typeof res.encryptedHex, 'string');
