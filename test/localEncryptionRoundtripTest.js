@@ -10,7 +10,6 @@ describe('local encrypt/decrypt roundtrip', function() {
 			assert.isTrue(!!dataKey);
 			assert.equal(typeof dataKey.plainBytes, 'object');
 			assert.equal(typeof dataKey.encryptedHex, 'string');
-
 			let testString = 'test123';
 			let encObject = typeHandler.forEncryption(testString);
 			let res = await localEncrypt.encrypt(dataKey,encObject);

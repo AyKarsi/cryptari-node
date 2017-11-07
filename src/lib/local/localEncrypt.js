@@ -3,19 +3,14 @@ const crypto = require('crypto');
 const getMasterKey = require('./localMasterKey');
 
 const encrypt = function(dataKey, encObject) {
-	try {
-		let aesCtr = new aesjs.ModeOfOperation.ctr(dataKey.plainBytes);
-		let encryptedBytes = aesCtr.encrypt(encObject.valBytes);
-		let enc = aesjs.utils.hex.fromBytes(encryptedBytes);
-		return {
-			dataKeyEncryptedHex: dataKey.encryptedHex,
-			encryptedHex: enc,
-			type: encObject.type
-		};
-	} catch (ex) {
-		console.log('local encryption error:', ex);
-		return ex;
-	}
+	let aesCtr = new aesjs.ModeOfOperation.ctr(dataKey.plainBytes);
+	let encryptedBytes = aesCtr.encrypt(encObject.valBytes);
+	let enc = aesjs.utils.hex.fromBytes(encryptedBytes);
+	return {
+		dataKeyEncryptedHex: dataKey.encryptedHex,
+		encryptedHex: enc,
+		type: encObject.type
+	};
 };
 const generateDataKey = async function() {
 	let masterKey = getMasterKey();
@@ -32,5 +27,6 @@ const generateDataKey = async function() {
 
 module.exports = {
 	generateDataKey: generateDataKey,
-	encrypt: encrypt
+	encrypt: encrypt,
+	getMasterKey:getMasterKey
 };

@@ -4,10 +4,10 @@ const jp = require('jsonpath');
 const encryptObject = require('./../src/lib/encryptObject');
 const decryptarify = require('./../src/lib/decryptarify');
 const userRecordExample = require('./sampleData/userRecordExample');
-
+const proxyquire = require('proxyquire');
 
 describe('encryptObject', function() {
-	it('can encrypt a single property on a obejct', async function() {
+	it('can encrypt a single property on a object', async function() {
 		let obj = {
 			foo:'123',
 			bar:'456'
@@ -17,7 +17,7 @@ describe('encryptObject', function() {
 		assert.isTrue(!!obj.foo,'foo should have a value');
 		assert.equal(obj.foo.indexOf('_cryptari'),0);
 	});
-	it('can encrypt a single date property on a obejct', async function() {
+	it('can encrypt a single date property on a object', async function() {
 		let obj = {
 			foo:'123',
 			date: new Date()
@@ -57,4 +57,50 @@ describe('encryptObject', function() {
 		assert.isTrue(!!endEncObj.dataKey);
 		assert.isTrue(!!endEncObj.encryptedValue);
 	});
+	describe('onError: keep (default) ',function() {
+		it('will  return the original value if an error occurs during encryption', async function() {
+			var stubs = {
+				'./typeHandler': {
+					forEncryption:function() {
+						throw 'unhandled';
+					}
+				}
+			};
+			const encryptObject = proxyquire('./../src/lib/encryptObject', stubs);
+			let obj = {
+				foo:'123',
+				date: new Date()
+			};
+			await encryptObject(obj,['foo']);
+			assert.equal(obj.foo,'123');
+		});
+	});
+	describe('onError:throw',function() {
+		let opts =  {
+			onError:'throw'
+		};
+		it('will throw an error if an exception occurs during encryption', async function() {
+			var stubs = {
+				'./typeHandler': {
+					forEncryption:function() {
+						throw 'unhandled';
+					}
+				}
+			};
+			const encryptObject = proxyquire('./../src/lib/encryptObject', stubs);
+			let err;
+			try {
+				let obj = {
+					foo:'123',
+					date: new Date()
+				};
+				await encryptObject(obj,['date'],opts);
+
+			} catch (e) {
+				err = e;
+			}
+			assert.isTrue(!!err);
+		});
+	});
 });
+

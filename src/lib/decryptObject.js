@@ -4,9 +4,8 @@ const encryptionProvider = require('./encryptionProvider');
 const decryptarify = require('./decryptarify');
 const typeHandler = require('./typeHandler');
 
-const decryptObject = async function(data, propertiesToDecrypt) {
-	// const dataKey = await encryptionProvider.generateDataKey();
-
+const decryptObject = async function(data, propertiesToDecrypt, opts) {
+	if (!opts) { opts = {}; }
 	// collect cryptari strings
 	let cryptStrings = _.reduce(propertiesToDecrypt, (it, prop) => {
 		let values = jp.query(data, prop);
@@ -21,29 +20,42 @@ const decryptObject = async function(data, propertiesToDecrypt) {
 	let cryptObjs = _.map(cryptStrings, (cp) => {
 		return decryptarify.toEncryptedObject(cp);
 	});
-
-	let promises = _.map(cryptObjs, async(cp) => {
-		return encryptionProvider.decryptDataKey(cp.dataKey);
-	});
-	let decDatakeys = await Promise.all(promises);
-	_.each(cryptObjs,(cp,i)=>{
-		cp.dataKeyDecryptedBytes = decDatakeys[i];
-	});
+	try {
+		let promises = _.map(cryptObjs, async(cp) => {
+			return encryptionProvider.decryptDataKey(cp.dataKey);
+		});
+		let decDatakeys = await Promise.all(promises);
+		_.each(cryptObjs, (cp, i) => {
+			cp.dataKeyDecryptedBytes = decDatakeys[i];
+		});
+	} catch (ex) {
+		if (opts.onError == 'throw') {
+			throw ex;
+		}
+		return;
+	}
 
 	_.each(propertiesToDecrypt, (prop) => {
 		let values = jp.query(data, prop);
 		_.each(values, (val) => {
-			// room for improvement here
 			let cp2 = decryptarify.toEncryptedObject(val);
-			let cpDec = _.find(cryptObjs,(cp)=>{
+			// room for improvement here
+			let cpDec = _.find(cryptObjs, (cp) => {
 				return cp.dataKey === cp2.dataKey;
 			});
-			let decrypted = encryptionProvider.decrypt(cp2.encryptedValue,cpDec.dataKeyDecryptedBytes);
-			var finalVal = typeHandler.fromEncryption(decrypted,cp2.type);
-			jp.apply(data, prop, () => { return finalVal; });
+			try {
+				let decrypted = encryptionProvider.decrypt(cp2.encryptedValue, cpDec.dataKeyDecryptedBytes);
+				var finalVal = typeHandler.fromEncryption(decrypted, cp2.type);
+				jp.apply(data, prop, () => { return finalVal; });
+			} catch (ex) {
+				if (opts.onError == 'throw') {
+					throw ex;
+				}
+				jp.apply(data, prop, () => { return cp2.encryptedValue; });
+			}
+
 		});
 
 	});
 };
 module.exports = decryptObject;
-

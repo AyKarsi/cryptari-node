@@ -47,45 +47,50 @@ You can use this for local development.
 ### Using AWS KMS
 The following environment variables need to be set to use AWS KMS.
 
-*CRYPTARI_AWS_ACCESS_KEY_ID* the IAM User Id with acccess to the below key
-*CRYPTARI_AWS_SECRET_ACCESS_KEY* the matching secret of the IAM User
-*CRYPTARI_AWS_CMK_ID* the Id of the aws master key
-*CRYPTARI_AWS_REGION* the region where the above key is stored.
+**CRYPTARI_AWS_ACCESS_KEY_ID** the IAM User Id with acccess to the below key
+**CRYPTARI_AWS_SECRET_ACCESS_KEY** the matching secret of the IAM User
+**CRYPTARI_AWS_CMK_ID** the Id of the aws master key
+**CRYPTARI_AWS_REGION** the region where the above key is stored.
 
+### Errorhandling 
 
-### AWS 
+By default cryptari-node will always return the value given to the encryp/decrypt method if encryption/decryption fails 
+Alternatively you can also confgure to crypatri to throw errors in a the case of a failure.
+Set the following enviroment variables for this:
 
-TODO define how to set the keys for each provided
+`CRYPTARI_ENCRYPTION_ONERROR=throw`
+`CRYPTARI_DECRYPTION_ONERROR=throw`
 
-e.g.
-	'aws': {
-		'AWS_ACCESS_KEY_ID': process.env.AWS_ACCESS_KEY_ID,
-		'AWS_SECRET_ACCESS_KEY': process.env.AWS_SECRET_ACCESS_KEY,
-		'AWS_CMK_ID': process.env.AWS_CMK_ID,
-		'AWS_REGION': 'eu-central-1'
-	}
-
-set your aws credentials using the env variables AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
-
-or create a bash script named ./setAws.sh under scripts (this file will is excluded from git)
-
-```
-export AWS_ACCESS_KEY_ID="AKA123123123123"
-export AWS_SECRET_ACCESS_KEY="asdfsdfsdfsdfsdfsdf"
-```
+You can also set these options on a per use case 
 
 
 ## API
 
-## async cryptari.encryptValue([string|number|date]) : encryptedString
+## async cryptari.encryptValue(value,opts) : encryptedString
+
+Encrypts a value and returns a encrypted string
+
+**IN:**
+*value:* required [string|number|date|object|array] 
+The value to be encrpyted
+*opts:* optional object
+	onError:['keep'|'throw'] 
+	keep: returns the original value
+	throw: throws an error. further handling is up to you
 
 
+## async cryptari.decryptString(encryptedString,,opts) : value
+
+## async cryptari.encryptObject(obj,[pathsToEncrypt],opts) 
+
+## async cryptari.decryptObject(obj,[pathsToEncrypt],opts) 
+
+## EncryptedString Format
+
+All values will be encrypted as strings in the following format: 
+
+`_cryptari.[version].[encryptedDataKey].[encryptedValue].[type].[chksum]`
 
 
-## async cryptari.decryptString(encryptedString) : [string|number|date]
-
-## async cryptari.encryptObject(obj,[pathsToEncrypt]) 
-
-## async cryptari.decryptObject(obj,[pathsToEncrypt]) 
 
 

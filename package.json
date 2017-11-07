@@ -40,6 +40,7 @@
 		"babel-preset-stage-0": "^6.24.1",
 		"chai": "^3.5.0",
 		"cross-env": "^5.1.1",
-		"mocha": "^4.0.1"
+		"mocha": "^4.0.1",
+		"proxyquire": "^1.8.0"
 	}
 }
