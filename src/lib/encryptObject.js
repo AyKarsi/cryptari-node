@@ -1,6 +1,5 @@
 const jp = require('jsonpath');
 const _ = require('lodash');
-const encryptionProvider = require('./encryptionProvider');
 const cryptarify = require('./cryptarify');
 const typeHandler = require('./typeHandler');
 /**
@@ -33,15 +32,15 @@ await encryptObject(obj, ['foo']);
 assert.equal(obj.bar, '456');
 assert.equal(obj.foo.indexOf('_cryptari'),0);
  */
-const encryptObject = async function(data, propertiesToEncrypt,opts) {
+const encryptObject = async function(provider,data, propertiesToEncrypt,opts) {
 	if (!opts) { opts = {};}
-	const dataKey = await encryptionProvider.generateDataKey();
+	const dataKey = await provider.generateDataKey();
 	_.each(propertiesToEncrypt, (prop) => {
 		let values = jp.query(data, prop);
 		_.each(values, (val) => {
 			try {
 				let encObject = typeHandler.forEncryption(val);
-				let encryptedObject = encryptionProvider.encrypt(dataKey, encObject);
+				let encryptedObject = provider.encrypt(dataKey, encObject);
 				let encString = cryptarify(encryptedObject);
 				jp.apply(data, prop, () => { return encString; });
 			}catch(ex) {
@@ -55,3 +54,8 @@ const encryptObject = async function(data, propertiesToEncrypt,opts) {
 };
 module.exports = encryptObject;
 
+module.exports = function(provider){
+	return function(data, propertiesToEncrypt,opts){
+		return encryptObject(provider,data, propertiesToEncrypt,opts);
+	};
+};

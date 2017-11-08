@@ -1,7 +1,5 @@
-const encryptionProvider = require('./encryptionProvider');
 const cryptarify = require('./cryptarify');
 const typeHandler = require('./typeHandler');
-
 /**
  * @alias module:api
  * @description Encrypts (nearly) any value
@@ -32,16 +30,16 @@ const typeHandler = require('./typeHandler');
  assert.equal(typeof encrypted,'string');
  assert.equal(encrypted.indexOf('_cryptari'),0);
  */
-const encryptValue = async function(value,opts) {
+const encryptValue = async function(provider,value,opts) {
 	if (!opts) { opts = {};}
 	try {
-		const dataKey = await encryptionProvider.generateDataKey();
+		const dataKey = await provider.generateDataKey();
 		let encObject = typeHandler.forEncryption(value);
 		if (!encObject) {
 			// always return the original value if typeHandling fails
 			return value;
 		}
-		let encryptedObject = encryptionProvider.encrypt(dataKey, encObject);
+		let encryptedObject = provider.encrypt(dataKey, encObject);
 		let encString = cryptarify(encryptedObject);
 		return encString;
 	}catch(ex) {
@@ -51,4 +49,8 @@ const encryptValue = async function(value,opts) {
 		return value;
 	}
 };
-module.exports = encryptValue;
+module.exports = function(provider){
+	return function(value, opts){
+		return encryptValue(provider,value,opts);
+	};
+};

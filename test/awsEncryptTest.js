@@ -6,7 +6,7 @@ describe('aws generateDataKey', function() {
 		var stubs = {
 			'./awsConfig': {'@noCallThru': true}
 		};
-		const awsEncrypt = proxyquire('./../src/lib/aws/awsEncrypt', stubs);
+		const awsEncrypt = proxyquire('./../src/lib/aws/awsEncrypt', stubs)({cmkKeyId:'123'});
 		let err;
 		try {
 			await awsEncrypt.generateDataKey();
@@ -18,7 +18,8 @@ describe('aws generateDataKey', function() {
 });
 describe('aws encrypt', function() {
 	it('will throw an exception if an invalid encryption key is given', async function() {
-		const awsEncrypt = require('./../src/lib/aws/awsEncrypt');
+		const awsConfig = require('./../src/lib/aws/awsConfig');
+		const awsEncrypt = require('./../src/lib/aws/awsEncrypt')(awsConfig);
 		let err;
 		try {
 			await awsEncrypt.encrypt({ plainBytes: 'rubbish' });

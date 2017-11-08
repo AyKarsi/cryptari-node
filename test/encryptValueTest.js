@@ -1,7 +1,7 @@
 const chai = require('chai');
 const assert = chai.assert;
-const encryptValue = require('./../src/lib/encryptValue');
-const proxyquire = require('proxyquire');
+const provider = require('./../src/lib/encryptionProvider')();
+const encryptValue = require('./../src/lib/encryptValue')(provider);
 
 describe('encrypt value - error handling', function() {
 	describe('default error handling',function() {
@@ -16,20 +16,15 @@ describe('encrypt value - error handling', function() {
 			assert.equal(encrypted,testVal);
 		});
 	});
-
 	describe('onError:throw',function() {
 		let opts =  {
 			onError:'throw'
 		};
-		it('will throw an error if an exception occurs during encryption', async function() {
-			var stubs = {
-				'./encryptionProvider': {
-					generateDataKey:function() {
-						throw 'unhandled';
-					}
-				}
+		it.only('will throw an error if an exception occurs during encryption', async function() {
+			provider.generateDataKey = function() {
+				throw 'unhandled';
 			};
-			const encryptValue = proxyquire('./../src/lib/encryptValue', stubs);
+			const encryptValue = require('./../src/lib/encryptValue')(provider);
 			let testVal = undefined;
 			let err;
 			try {

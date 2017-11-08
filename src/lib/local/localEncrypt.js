@@ -25,8 +25,12 @@ const generateDataKey = async function() {
 	};
 };
 
-module.exports = {
-	generateDataKey: generateDataKey,
-	encrypt: encrypt,
-	getMasterKey:getMasterKey
+module.exports = function() {
+	return {
+		getMasterKey:getMasterKey,
+		generateDataKey:function() {
+			return generateDataKey();
+		},
+		encrypt:encrypt
+	};
 };

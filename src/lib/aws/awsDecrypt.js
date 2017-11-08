@@ -1,6 +1,6 @@
 const aesjs = require('aes-js');
-const kms = require('./kms');
-const decryptDataKey = async function(dataKeyEncryptedHex) {
+const Kms = require('./kms');
+const decryptDataKey = async function(kms,dataKeyEncryptedHex) {
 	let encDataKeyBytes = aesjs.utils.hex.toBytes(dataKeyEncryptedHex);
 	let data = await kms.decrypt({
 		CiphertextBlob: Buffer(encDataKeyBytes)
@@ -16,7 +16,12 @@ const decrypt = function(encryptedHex, decryptedDataKeyBytes) {
 	return aesjs.utils.utf8.fromBytes(decryptedBytes);
 };
 
-module.exports = {
-	decryptDataKey: decryptDataKey,
-	decrypt: decrypt
+module.exports = function(config) {
+	let kms = Kms(config);
+	return {
+		decryptDataKey:function(dataKeyEncryptedHex) {
+			return decryptDataKey(kms,dataKeyEncryptedHex);
+		},
+		decrypt:decrypt
+	};
 };

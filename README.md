@@ -9,7 +9,8 @@ This library provides methods to encrypt and decrypt values using envelope encrp
 
 - Using a Key Management Service (KMS) of your choice. (See Implementation Status)
 - Bring your own key or use a key provided by crypatri.com 
-- 
+
+[API Documentation can be found here](api.md)
 
 TODO: 
 - Add Link/Explain Envelope Encryption

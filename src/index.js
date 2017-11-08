@@ -1,10 +1,12 @@
 
 require('babel-core/register');
 require('babel-polyfill');
-const encryptObject = require('./lib/encryptObject');
-const decryptObject = require('./lib/decryptObject');
-const encryptValue = require('./lib/encryptValue');
-const decryptValue = require('./lib/decryptValue');
+// const encryptObject = require('./lib/encryptObject');
+// const decryptObject = require('./lib/decryptObject');
+// const encryptValue = require('./lib/encryptValue');
+// const decryptValue = require('./lib/decryptValue');
+const enryptionProvider = require('./lib/encryptionProvider');
+const awsConfig = require('./aws/awsConfig');
 
 /**
  * Crypatri Api
@@ -13,6 +15,7 @@ const decryptValue = require('./lib/decryptValue');
  <p>
 		Please note: All methods are async and return promises
  </p>
+# Encrypted Values
  <p>
  All values will be encrypted as strings in the following format:
 
@@ -22,10 +25,17 @@ TODO Describe the properties once implemented
 
 </p>
  */
-module.exports =  {
-	encryptValue:encryptValue,
-	decryptValue:decryptValue,
-	encryptObject:encryptObject,
-	decryptObject:decryptObject
+// module.exports =  {
+// 	encryptValue:encryptValue,
+// 	decryptValue:decryptValue,
+// 	encryptObject:encryptObject,
+// 	decryptObject:decryptObject
+// };
+
+
+module.exports = function(opts){
+
+	if (!opts) {opts = awsConfig;}
+	return new enryptionProvider(opts);
 };
 

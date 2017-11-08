@@ -1,8 +1,9 @@
 const chai = require('chai');
 const assert = chai.assert;
 const jp = require('jsonpath');
-const encryptObject = require('./../src/lib/encryptObject');
-const decryptObject = require('./../src/lib/decryptObject');
+const provider = require('./../src/lib/encryptionProvider')();
+const encryptObject = require('./../src/lib/encryptObject')(provider);
+const decryptObject = require('./../src/lib/decryptObject')(provider);
 const decryptarify = require('./../src/lib/decryptarify');
 const userRecordExample = require('./sampleData/userRecordExample');
 const proxyquire = require('proxyquire');
@@ -115,7 +116,7 @@ describe('decryptObject', function() {
 					}
 				}
 			};
-			const decryptObject = proxyquire('./../src/lib/decryptObject', stubs);
+			const decryptObject = proxyquire('./../src/lib/decryptObject', stubs)(provider);
 			let obj = {
 				foo: '123',
 				date: new Date()

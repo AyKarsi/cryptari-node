@@ -1,10 +1,7 @@
 const jp = require('jsonpath');
 const _ = require('lodash');
-const encryptionProvider = require('./encryptionProvider');
 const decryptarify = require('./decryptarify');
 const typeHandler = require('./typeHandler');
-
-
 
  /**
  * @alias module:api
@@ -37,7 +34,7 @@ await encryptObject(obj, ['foo']);
 assert.equal(obj.bar, '456');
 assert.equal(obj.foo '123');
 */
-const decryptObject = async function(data, propertiesToDecrypt, opts) {
+const decryptObject = async function(_provider,data, propertiesToDecrypt, opts) {
 	if (!opts) { opts = {}; }
 	// collect cryptari strings
 	let cryptStrings = _.reduce(propertiesToDecrypt, (it, prop) => {
@@ -55,7 +52,7 @@ const decryptObject = async function(data, propertiesToDecrypt, opts) {
 	});
 	try {
 		let promises = _.map(cryptObjs, async(cp) => {
-			return encryptionProvider.decryptDataKey(cp.dataKey);
+			return _provider.decryptDataKey(cp.dataKey);
 		});
 		let decDatakeys = await Promise.all(promises);
 		_.each(cryptObjs, (cp, i) => {
@@ -77,7 +74,7 @@ const decryptObject = async function(data, propertiesToDecrypt, opts) {
 				return cp.dataKey === cp2.dataKey;
 			});
 			try {
-				let decrypted = encryptionProvider.decrypt(cp2.encryptedValue, cpDec.dataKeyDecryptedBytes);
+				let decrypted = _provider.decrypt(cp2.encryptedValue, cpDec.dataKeyDecryptedBytes);
 				var finalVal = typeHandler.fromEncryption(decrypted, cp2.type);
 				jp.apply(data, prop, () => { return finalVal; });
 			} catch (ex) {
@@ -91,4 +88,8 @@ const decryptObject = async function(data, propertiesToDecrypt, opts) {
 
 	});
 };
-module.exports = decryptObject;
+module.exports = function(provider){
+	return function(data, propertiesToDecrypt, opts){
+		return decryptObject(provider,data, propertiesToDecrypt, opts);
+	};
+};

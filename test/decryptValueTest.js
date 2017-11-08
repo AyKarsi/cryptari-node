@@ -1,6 +1,7 @@
 const chai = require('chai');
 const assert = chai.assert;
-const decryptValue = require('./../src/lib/decryptValue');
+const provider = require('./../src/lib/encryptionProvider')();
+const decryptValue = require('./../src/lib/decryptValue')(provider);
 const proxyquire = require('proxyquire');
 
 describe('decrypt value - error handling', function() {
@@ -36,7 +37,7 @@ describe('decrypt value - error handling', function() {
 					}
 				}
 			};
-			const decryptValue = proxyquire('./../src/lib/decryptValue', stubs);
+			const decryptValue = proxyquire('./../src/lib/decryptValue', stubs)(provider);
 			let testVal = undefined;
 			let err;
 			try {

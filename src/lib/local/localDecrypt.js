@@ -16,7 +16,11 @@ const decrypt = function(encryptedHex, decryptedDataKeyBytes) {
 };
 
 
-module.exports = {
-	decryptDataKey: decryptDataKey,
-	decrypt: decrypt
+module.exports = function() {
+	return {
+		decryptDataKey:function(dataKeyEncryptedHex) {
+			return decryptDataKey(dataKeyEncryptedHex);
+		},
+		decrypt:decrypt
+	};
 };

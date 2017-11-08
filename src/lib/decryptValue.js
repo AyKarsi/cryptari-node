@@ -1,4 +1,3 @@
-const encryptionProvider = require('./encryptionProvider');
 const decryptarify = require('./decryptarify');
 const typeHandler = require('./typeHandler');
 
@@ -32,7 +31,7 @@ const typeHandler = require('./typeHandler');
  let decrypted = await decryptValue(encrypted);
  assert.equal(decrypted.getTime(), today.getTime());
  */
-const decryptValue = async function(encryptedString, opts) {
+const decryptValue = async function(provider,encryptedString, opts) {
 	if (!opts) { opts = {}; }
 	try {
 		let cp = decryptarify.toEncryptedObject(encryptedString);
@@ -40,12 +39,12 @@ const decryptValue = async function(encryptedString, opts) {
 			// always return the original value if decryptarification fails
 			return encryptedString;
 		}
-		let dk = await encryptionProvider.decryptDataKey(cp.dataKey);
+		let dk = await provider.decryptDataKey(cp.dataKey);
 		if (!dk) {
 			return encryptedString;
 		}
 		let decrypted;
-		decrypted = encryptionProvider.decrypt(cp.encryptedValue, dk);
+		decrypted = provider.decrypt(cp.encryptedValue, dk);
 		if (!decrypted) {
 			return encryptedString;
 		}
@@ -58,4 +57,8 @@ const decryptValue = async function(encryptedString, opts) {
 		return encryptedString;
 	}
 };
-module.exports = decryptValue;
+module.exports = function(provider){
+	return function(encryptedString, opts){
+		return decryptValue(provider,encryptedString, opts);
+	};
+};

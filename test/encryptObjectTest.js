@@ -1,7 +1,8 @@
 const chai = require('chai');
 const assert = chai.assert;
 const jp = require('jsonpath');
-const encryptObject = require('./../src/lib/encryptObject');
+const provider = require('./../src/lib/encryptionProvider')();
+const encryptObject = require('./../src/lib/encryptObject')(provider);
 const decryptarify = require('./../src/lib/decryptarify');
 const userRecordExample = require('./sampleData/userRecordExample');
 const proxyquire = require('proxyquire');
@@ -87,7 +88,7 @@ describe('encryptObject', function() {
 					}
 				}
 			};
-			const encryptObject = proxyquire('./../src/lib/encryptObject', stubs);
+			const encryptObject = proxyquire('./../src/lib/encryptObject', stubs)(provider);
 			let err;
 			try {
 				let obj = {

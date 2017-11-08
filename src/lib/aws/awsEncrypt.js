@@ -1,9 +1,7 @@
 const aesjs = require('aes-js');
-const kms = require('./kms');
-const config = require('./awsConfig');
+const Kms = require('./kms');
 
-const generateDataKey = async function() {
-	let keyId = config.cmkKeyId;
+const generateDataKey = async function(kms,keyId) {
 	const params = {
 		KeyId: keyId,
 		KeySpec: 'AES_256'
@@ -28,8 +26,13 @@ const encrypt = function(dataKey, encObject) {
 	};
 };
 
-
-module.exports = {
-	generateDataKey: generateDataKey,
-	encrypt: encrypt
+module.exports = function(config) {
+	let kms = Kms(config);
+	let keyId = config.cmkKeyId;
+	return {
+		generateDataKey:function() {
+			return generateDataKey(kms,keyId);
+		},
+		encrypt:encrypt
+	};
 };

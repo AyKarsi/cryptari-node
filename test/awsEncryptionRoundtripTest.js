@@ -1,8 +1,8 @@
 const chai = require('chai');
 const assert = chai.assert;
 const awsConfig = require('../src/lib/aws/awsConfig');
-const awsEncrypt = require('../src/lib/aws/awsEncrypt');
-const awsDecrypt = require ('../src/lib/aws/awsDecrypt');
+const awsEncrypt = require('../src/lib/aws/awsEncrypt')(awsConfig);
+const awsDecrypt = require ('../src/lib/aws/awsDecrypt')(awsConfig);
 const typeHandler = require('../src/lib/typeHandler');
 
 describe('aws encrypt/decrypt roundtrip', function() {
