@@ -4,6 +4,39 @@ const encryptionProvider = require('./encryptionProvider');
 const decryptarify = require('./decryptarify');
 const typeHandler = require('./typeHandler');
 
+
+
+ /**
+ * @alias module:api
+ * @description Decrypts selected properties on a given object
+ * @summary
+ * <p>
+ * 	The properties will be decrypted directly on the object.
+ * </p>
+ * <p>
+ * 	Internally jsonpath(https://github.com/json-path/JsonPath) is used to locate and decrypt the properties
+ * </p>
+ * <p>
+ * If an exception occurs:
+ * <ul>
+ * 	<li>options.onError === keep  (default) :  the encrypted string remains in place and encryption and encryption is aborted /li>
+ * 	<li>options.onError === throw : an exception is thrown</li>
+ * </ul>
+ * </p>
+  * @param {Object} Dto The object containing properties which need to be decrypted
+ * @param {Array} propertiesToDecrypt An array containg the paths to the properties which need to be decrypted
+ * @param {Object} [options]
+ * @param {String} [options.onError] keep or throw
+ * @returns {void}
+ * @example
+let obj = {
+		foo: '_cryptari.123123.34521342134....',
+		bar: '456'
+};
+await encryptObject(obj, ['foo']);
+assert.equal(obj.bar, '456');
+assert.equal(obj.foo '123');
+*/
 const decryptObject = async function(data, propertiesToDecrypt, opts) {
 	if (!opts) { opts = {}; }
 	// collect cryptari strings

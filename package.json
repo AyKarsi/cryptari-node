@@ -7,11 +7,16 @@
 		"start": "cross-env node index",
 		"watch": "nodemon --exec npm run start",
 		"test": "cross-env NODE_ENV=test mocha",
-		"build": "babel  --out-dir build/ src/",
+		"build-code": "babel  --out-dir build/ src/",
 		"test-watch": "cross-env NODE_ENV=test nodemon --exec npm run test",
 		"test-debug": "cross-env NODE_ENV=test mocha --inspect --inspect-brk",
 		"test-watch-debug": "nodemon --exec npm run test-debug",
-		"translate": "node_modules/babel-cli/bin/babel-node.js ./index.js"
+		"translate": "node_modules/babel-cli/bin/babel-node.js ./index.js",
+		"build-docs": "jsdoc2md  build/**/*.js > api.md",
+		"_build-docs": "doxdox src/**/*.js --layout markdown --output api.md",
+		"build-docs-watch": "nodemon --exec npm run build-docs",
+		"build": "npm run build-code && npm run build-docs",
+		"build-watch": "nodemon --exec npm run build"
 	},
 	"repository": {
 		"type": "git",
@@ -40,6 +45,7 @@
 		"babel-preset-stage-0": "^6.24.1",
 		"chai": "^3.5.0",
 		"cross-env": "^5.1.1",
+		"jsdoc-to-markdown": "^3.0.1",
 		"mocha": "^4.0.1",
 		"proxyquire": "^1.8.0"
 	}

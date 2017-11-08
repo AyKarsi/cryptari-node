@@ -33,6 +33,7 @@ TODO:
 
 ## installation 
 
+
 TODO  npm install
 
 ## Setup 
@@ -65,6 +66,8 @@ You can also set these options on a per use case
 
 
 ## API
+
+[API Documentation can be found here](api.md)
 
 ## async cryptari.encryptValue(value,opts) : encryptedString
 

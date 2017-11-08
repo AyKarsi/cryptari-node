@@ -3,7 +3,36 @@ const _ = require('lodash');
 const encryptionProvider = require('./encryptionProvider');
 const cryptarify = require('./cryptarify');
 const typeHandler = require('./typeHandler');
-
+/**
+ * @alias module:api
+ * @description Encrypts selected properties on a given object
+ * @summary
+ * <p>
+ * 	The objects properties will be encrypted directly. Regarding type conversion and persitance the same rules as for encryptValue apply.
+ * </p>
+ * <p>
+ * 	Internally jsonpath(https://github.com/json-path/JsonPath) is used located the properties
+ * </p>
+ * <p>
+ * If an exception occurs:
+ * <ul>
+ * 	<li>options.onError === keep  (default) :  the encrypted string remains in place and we will attempt to encrypt further properties </li>
+ * 	<li>options.onError === throw : an exception is thrown</li>
+ * </ul>
+ * </p>
+ * @param {Object} Dto The object containing properties which need to be encrypted
+ * @param {Array} propertiesToEncrypt An array containg the paths to the properties which need to be encrypted
+ * @param {String} [options.onError] keep or throw
+ * @returns {void}
+* @example
+let obj = {
+		foo: '123',
+		bar: '456'
+};
+await encryptObject(obj, ['foo']);
+assert.equal(obj.bar, '456');
+assert.equal(obj.foo.indexOf('_cryptari'),0);
+ */
 const encryptObject = async function(data, propertiesToEncrypt,opts) {
 	if (!opts) { opts = {};}
 	const dataKey = await encryptionProvider.generateDataKey();
