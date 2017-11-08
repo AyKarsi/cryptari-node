@@ -13,6 +13,14 @@ const decryptValue = require('./lib/decryptValue');
  <p>
 		Please note: All methods are async and return promises
  </p>
+ <p>
+ All values will be encrypted as strings in the following format:
+
+`_cryptari.[version].[encryptedDataKey].[encryptedValue].[type].[chksum]`
+
+TODO Describe the properties once implemented
+
+</p>
  */
 module.exports =  {
 	encryptValue:encryptValue,

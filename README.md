@@ -69,30 +69,6 @@ You can also set these options on a per use case
 
 [API Documentation can be found here](api.md)
 
-## async cryptari.encryptValue(value,opts) : encryptedString
-
-Encrypts a value and returns a encrypted string
-
-**IN:**
-*value:* required [string|number|date|object|array] 
-The value to be encrpyted
-*opts:* optional object
-	onError:['keep'|'throw'] 
-	keep: returns the original value
-	throw: throws an error. further handling is up to you
-
-
-## async cryptari.decryptString(encryptedString,,opts) : value
-
-## async cryptari.encryptObject(obj,[pathsToEncrypt],opts) 
-
-## async cryptari.decryptObject(obj,[pathsToEncrypt],opts) 
-
-## EncryptedString Format
-
-All values will be encrypted as strings in the following format: 
-
-`_cryptari.[version].[encryptedDataKey].[encryptedValue].[type].[chksum]`
 
 
 
