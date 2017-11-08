@@ -5,10 +5,10 @@
 
 # Summary
 
-This library provides methods to encrypt and decrypt values using envelope encrpytion for node.js.
+This library provides methods to encrypt and decrypt values using envelope encryption for node.js.
 
 - Using a Key Management Service (KMS) of your choice. (See Implementation Status)
-- Bring your own key or use a key provided by crypatri.com 
+- Bring your own key or use a key provided by cryptari.com 
 
 [API Documentation can be found here](api.md)
 
@@ -24,6 +24,7 @@ TODO:
 - AWS
 - Local Encryption (not intended for production use)
 
+
 ## Roadmap
 
 - Google 
@@ -32,15 +33,15 @@ TODO:
 - Alibaba
 
 
-## installation 
-
+## Installation 
 
 TODO  npm install
+
 
 ## Setup 
 
 ### Key Configuration
-If nothing is configured cryptari-node will use a hardcoded and insecure(!) local master key. 
+If nothing is configured, cryptari-node will use a hardcoded and insecure(!) local master key. 
 You can use this for local development.
 
 
@@ -54,10 +55,10 @@ The following environment variables need to be set to use AWS KMS.
 **CRYPTARI_AWS_CMK_ID** the Id of the aws master key
 **CRYPTARI_AWS_REGION** the region where the above key is stored.
 
-### Errorhandling 
+### Error handling 
 
-By default cryptari-node will always return the value given to the encryp/decrypt method if encryption/decryption fails 
-Alternatively you can also confgure to crypatri to throw errors in a the case of a failure.
+By default cryptari-node will always return the value given to the encrypt/decrypt method if encryption/decryption fails 
+Alternatively you can also configure to cryptari to throw errors in the case of a failure.
 Set the following enviroment variables for this:
 
 `CRYPTARI_ENCRYPTION_ONERROR=throw`
