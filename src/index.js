@@ -1,10 +1,10 @@
 
 require('babel-core/register');
 require('babel-polyfill');
-// const encryptObject = require('./lib/encryptObject');
-// const decryptObject = require('./lib/decryptObject');
-// const encryptValue = require('./lib/encryptValue');
-// const decryptValue = require('./lib/decryptValue');
+const encryptObject = require('./lib/encryptObject');
+const decryptObject = require('./lib/decryptObject');
+const encryptValue = require('./lib/encryptValue');
+const decryptValue = require('./lib/decryptValue');
 const enryptionProvider = require('./lib/encryptionProvider');
 const awsConfig = require('./lib/aws/awsConfig');
 
@@ -34,8 +34,13 @@ TODO Describe the properties once implemented
 
 
 module.exports = function(opts){
-
 	if (!opts) {opts = awsConfig;}
-	return new enryptionProvider(opts);
+	let provider =  new enryptionProvider(opts);
+	return {
+		encryptValue:encryptValue(provider),
+		decryptValue:decryptValue(provider),
+		encryptObject:encryptObject(provider),
+		decryptObject:decryptObject(provider)
+	};
 };
 
