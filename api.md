@@ -4,6 +4,7 @@
 <p>
 		Please note: All methods are async and return promises
  </p>
+# Encrypted Values
  <p>
  All values will be encrypted as strings in the following format:
 
@@ -19,6 +20,7 @@ TODO Describe the properties once implemented
     * [decryptValue](#exp_module_api--decryptValue) ⇒ <code>String</code> \| <code>Date</code> \| <code>Array</code> \| <code>Number</code> \| <code>Object</code> ⏏
     * [encryptObject](#exp_module_api--encryptObject) ⇒ <code>void</code> ⏏
     * [encryptValue](#exp_module_api--encryptValue) ⇒ <code>String</code> ⏏
+    * [module.exports([options])](#exp_module_api--module.exports) ⇒ <code>String</code> ⏏
 
 <a name="exp_module_api--decryptObject"></a>
 
@@ -163,3 +165,18 @@ let encrypted = await encryptValue(someValue);
  assert.equal(typeof encrypted,'string');
  assert.equal(encrypted.indexOf('_cryptari'),0);
 ```
+<a name="exp_module_api--module.exports"></a>
+
+### module.exports([options]) ⇒ <code>String</code> ⏏
+creates a new cryptari instance
+
+**Kind**: global method of [<code>api</code>](#module_api)  
+
+| Param | Type |
+| --- | --- |
+| [options] | <code>Object</code> | 
+| [options.aws] | <code>String</code> | 
+| [options.aws.accessKeyId] | <code>String</code> | 
+| [options.aws.secretAccessKey] | <code>String</code> | 
+| [options.aws.region] | <code>String</code> | 
+

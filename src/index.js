@@ -6,7 +6,7 @@ require('babel-polyfill');
 // const encryptValue = require('./lib/encryptValue');
 // const decryptValue = require('./lib/decryptValue');
 const enryptionProvider = require('./lib/encryptionProvider');
-const awsConfig = require('./aws/awsConfig');
+const awsConfig = require('./lib/aws/awsConfig');
 
 /**
  * Crypatri Api

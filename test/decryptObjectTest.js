@@ -4,9 +4,10 @@ const jp = require('jsonpath');
 const provider = require('./../src/lib/encryptionProvider')();
 const encryptObject = require('./../src/lib/encryptObject')(provider);
 const decryptObject = require('./../src/lib/decryptObject')(provider);
-const decryptarify = require('./../src/lib/decryptarify');
 const userRecordExample = require('./sampleData/userRecordExample');
 const proxyquire = require('proxyquire');
+const CryptoObject = require('./../src/lib/cryptoObject');
+
 
 describe('decryptObject', function() {
 	it('can decrypt a single property on a obejct', async function() {
@@ -72,10 +73,10 @@ describe('decryptObject', function() {
 		let grossValues = jp.query(obj, grossPath);
 		let endValues = jp.query(obj, endPath);
 
-		let grossCp = decryptarify.toEncryptedObject(grossValues[0]);
-		let endCp = decryptarify.toEncryptedObject(endValues[0]);
+		let grossCp = new CryptoObject(grossValues[0]);
+		let endCp = new CryptoObject(endValues[0]);
 
-		assert.isFalse(grossCp.dataKey === endCp.dataKey, 'should have different data keys');
+		assert.isFalse(grossCp.dataKeyEncryptedHex === endCp.dataKeyEncryptedHex, 'should have different data keys');
 
 		await decryptObject(obj, propToEncryp);
 		grossValues = jp.query(obj, grossPath);

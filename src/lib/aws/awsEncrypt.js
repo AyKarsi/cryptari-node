@@ -1,5 +1,6 @@
 const aesjs = require('aes-js');
 const Kms = require('./kms');
+const CryptoObject = require('./../CryptoObject');
 
 const generateDataKey = async function(kms,keyId) {
 	const params = {
@@ -19,11 +20,11 @@ const encrypt = function(dataKey, encObject) {
 	let aesCtr = new aesjs.ModeOfOperation.ctr(dataKey.plainBytes);
 	let encryptedBytes = aesCtr.encrypt(encObject.valBytes);
 	let enc = aesjs.utils.hex.fromBytes(encryptedBytes);
-	return {
-		dataKeyEncryptedHex: dataKey.encryptedHex,
-		encryptedHex: enc,
-		type: encObject.type
-	};
+	let co = new CryptoObject();
+	co.encryptedHex = enc;
+	co.dataKeyEncryptedHex = dataKey.encryptedHex;
+	co.type = encObject.type;
+	return co;
 };
 
 module.exports = function(config) {

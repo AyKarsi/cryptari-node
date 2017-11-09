@@ -1,5 +1,5 @@
-const decryptarify = require('./decryptarify');
 const typeHandler = require('./typeHandler');
+const CryptoObject = require('./CryptoObject');
 
 /**
  * @alias module:api
@@ -34,21 +34,21 @@ const typeHandler = require('./typeHandler');
 const decryptValue = async function(provider,encryptedString, opts) {
 	if (!opts) { opts = {}; }
 	try {
-		let cp = decryptarify.toEncryptedObject(encryptedString);
-		if (!cp || cp === encryptedString) {
+		let cryptoObject = new CryptoObject(encryptedString);
+		if (!cryptoObject.isValid()) {
 			// always return the original value if decryptarification fails
 			return encryptedString;
 		}
-		let dk = await provider.decryptDataKey(cp.dataKey);
+		let dk = await provider.decryptDataKey(cryptoObject.dataKeyEncryptedHex);
 		if (!dk) {
 			return encryptedString;
 		}
 		let decrypted;
-		decrypted = provider.decrypt(cp.encryptedValue, dk);
+		decrypted = provider.decrypt(cryptoObject.encryptedHex, dk);
 		if (!decrypted) {
 			return encryptedString;
 		}
-		var finalVal = typeHandler.fromEncryption(decrypted, cp.type);
+		var finalVal = typeHandler.fromEncryption(decrypted, cryptoObject.type);
 		return finalVal;
 	} catch (ex) {
 		if (opts.onError == 'throw') {

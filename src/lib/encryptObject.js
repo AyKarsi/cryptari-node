@@ -1,6 +1,5 @@
 const jp = require('jsonpath');
 const _ = require('lodash');
-const cryptarify = require('./cryptarify');
 const typeHandler = require('./typeHandler');
 /**
  * @alias module:api
@@ -40,9 +39,10 @@ const encryptObject = async function(provider,data, propertiesToEncrypt,opts) {
 		_.each(values, (val) => {
 			try {
 				let encObject = typeHandler.forEncryption(val);
-				let encryptedObject = provider.encrypt(dataKey, encObject);
-				let encString = cryptarify(encryptedObject);
-				jp.apply(data, prop, () => { return encString; });
+				let cryptoObject = provider.encrypt(dataKey, encObject);
+				if (cryptoObject){
+					jp.apply(data, prop, () => { return cryptoObject.toString(); });
+				}
 			}catch(ex) {
 				if (opts.onError == 'throw') {
 					throw ex;

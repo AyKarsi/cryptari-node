@@ -2,7 +2,6 @@ const chai = require('chai');
 const assert = chai.assert;
 const provider = require('./../src/lib/encryptionProvider')();
 const decryptValue = require('./../src/lib/decryptValue')(provider);
-const proxyquire = require('proxyquire');
 
 describe('decrypt value - error handling', function() {
 	it('will return undefined if an undefined value is given', async function() {
@@ -30,15 +29,11 @@ describe('decrypt value - error handling', function() {
 			onError:'throw'
 		};
 		it('will throw an error if an exception occurs during deccryption', async function() {
-			var stubs = {
-				'./decryptarify': {
-					toEncryptedObject:function() {
-						throw 'unhandled';
-					}
-				}
+			provider.decrypt = function() {
+				throw 'up';
 			};
-			const decryptValue = proxyquire('./../src/lib/decryptValue', stubs)(provider);
-			let testVal = undefined;
+			const decryptValue = require('./../src/lib/decryptValue')(provider);
+			let testVal = '_cryptari.123a.13a.string';
 			let err;
 			try {
 				await decryptValue(testVal,opts);

@@ -3,7 +3,7 @@ const assert = chai.assert;
 const jp = require('jsonpath');
 const provider = require('./../src/lib/encryptionProvider')();
 const encryptObject = require('./../src/lib/encryptObject')(provider);
-const decryptarify = require('./../src/lib/decryptarify');
+const CryptoObject = require('./../src/lib/cryptoObject');
 const userRecordExample = require('./sampleData/userRecordExample');
 const proxyquire = require('proxyquire');
 
@@ -50,13 +50,13 @@ describe('encryptObject', function() {
 		assert.equal(grossEnc.indexOf('_cryptari'),0);
 		assert.equal(endEnc.indexOf('_cryptari'),0);
 
-		let grossEncObj = decryptarify.toEncryptedObject(grossEnc);
-		let endEncObj = decryptarify.toEncryptedObject(endEnc);
+		let grossEncObj = new CryptoObject(grossEnc);
+		let endEncObj = new CryptoObject(endEnc);
 
-		assert.isTrue(!!grossEncObj.dataKey);
-		assert.isTrue(!!grossEncObj.encryptedValue);
-		assert.isTrue(!!endEncObj.dataKey);
-		assert.isTrue(!!endEncObj.encryptedValue);
+		assert.isTrue(!!grossEncObj.dataKeyEncryptedHex);
+		assert.isTrue(!!grossEncObj.encryptedHex);
+		assert.isTrue(!!endEncObj.dataKeyEncryptedHex);
+		assert.isTrue(!!endEncObj.encryptedHex);
 	});
 	describe('onError: keep (default) ',function() {
 		it('will  return the original value if an error occurs during encryption', async function() {

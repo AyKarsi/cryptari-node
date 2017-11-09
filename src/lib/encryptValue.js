@@ -1,4 +1,3 @@
-const cryptarify = require('./cryptarify');
 const typeHandler = require('./typeHandler');
 /**
  * @alias module:api
@@ -39,9 +38,10 @@ const encryptValue = async function(provider,value,opts) {
 			// always return the original value if typeHandling fails
 			return value;
 		}
-		let encryptedObject = provider.encrypt(dataKey, encObject);
-		let encString = cryptarify(encryptedObject);
-		return encString;
+		let cryptoObject = provider.encrypt(dataKey, encObject);
+		if (cryptoObject){
+			return cryptoObject.toString();
+		}
 	}catch(ex) {
 		if (opts.onError == 'throw') {
 			throw ex;

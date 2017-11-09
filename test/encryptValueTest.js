@@ -20,7 +20,7 @@ describe('encrypt value - error handling', function() {
 		let opts =  {
 			onError:'throw'
 		};
-		it.only('will throw an error if an exception occurs during encryption', async function() {
+		it('will throw an error if an exception occurs during encryption', async function() {
 			provider.generateDataKey = function() {
 				throw 'unhandled';
 			};
