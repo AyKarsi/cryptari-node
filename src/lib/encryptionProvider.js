@@ -15,22 +15,24 @@ const LocalDecrypt = require('./local/localDecrypt');
  * @returns {String}
  */
 module.exports = function(config){
-	let encryptor;
-	let env = process.env.NODE_ENV;
+	let provider;
+	//let env = process.env.NODE_ENV;
 	if (!config){config={};}
-	if (config.awsConfigured && env !== 'test'){
+	if (config.awsConfigured){
 			console.log('using aws decryption');
-			encryptor = AwsEncrypt(config);
+			provider = AwsEncrypt(config);
 			let awsDecrypt = AwsDecrypt(config);
-			encryptor.decryptDataKey = awsDecrypt.decryptDataKey;
-			encryptor.decrypt = awsDecrypt.decrypt;
+			provider.name = 'aws';
+			provider.decryptDataKey = awsDecrypt.decryptDataKey;
+			provider.decrypt = awsDecrypt.decrypt;
 	}else {
 		console.warn('using local encryption. not intended for production use');
-		encryptor = LocalEncrypt(config);
+		provider = LocalEncrypt(config);
+		provider.name = 'local';
 		let localDecrypt = LocalDecrypt(config);
-		encryptor.decryptDataKey = localDecrypt.decryptDataKey;
-		encryptor.decrypt = localDecrypt.decrypt;
+		provider.decryptDataKey = localDecrypt.decryptDataKey;
+		provider.decrypt = localDecrypt.decrypt;
 	}
-	return encryptor;
+	return provider;
 };
 

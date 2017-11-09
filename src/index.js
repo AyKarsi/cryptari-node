@@ -37,6 +37,7 @@ module.exports = function(opts){
 	if (!opts) {opts = awsConfig;}
 	let provider =  new enryptionProvider(opts);
 	return {
+		providerName:provider.name,
 		encryptValue:encryptValue(provider),
 		decryptValue:decryptValue(provider),
 		encryptObject:encryptObject(provider),
