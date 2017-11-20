@@ -2,6 +2,15 @@ const chai = require('chai');
 const assert = chai.assert;
 const Api = require('../src/index');
 const awsConfig = require('./../src/lib/aws/awsConfig');
+
+const canRun = function(test) {
+	if (!process.env.CRYPTARI_AWS_SECRET_ACCESS_KEY) {
+		console.log('skippig test because no credentials for integration testing were set.');
+		test.skip();
+		return false;
+	}
+	return true;
+};
 describe('api creation', function() {
 	it('can create the api',  function() {
 		let api = Api({});
@@ -13,6 +22,7 @@ describe('api creation', function() {
 	});
 	it('can create an api with aws',  function() {
 		let api = Api(awsConfig);
+		if (!canRun(this)){return;}
 		assert.equal(api.providerName,'aws');
 		assert.equal(typeof api.encryptValue,'function');
 		assert.equal(typeof api.decryptValue,'function');
@@ -46,6 +56,8 @@ describe('api integration tests', function() {
 	});
 	describe('aws',function() {
 		it('can encrypt and decrypt a value', async function() {
+			if (!canRun(this)){return;}
+
 			let api = Api(awsConfig);
 			assert.equal(api.providerName,'aws');
 			let testValue = 'hello';
@@ -54,6 +66,7 @@ describe('api integration tests', function() {
 			assert.equal(testValue,dec);
 		});
 		it('can encrypt and decrypt a object', async function() {
+			if (!canRun(this)){return;}
 			let api = Api(awsConfig);
 			assert.equal(api.providerName,'aws');
 			let testObject = {
