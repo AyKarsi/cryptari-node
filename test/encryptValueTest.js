@@ -15,6 +15,11 @@ describe('encrypt value - error handling', function() {
 			let encrypted = await encryptValue(testVal);
 			assert.equal(encrypted,testVal);
 		});
+		it('will not re-encrypt a value if the value is encrypted already', async function() {
+			let testVal = '_cryptari.123123.34521342134.abc';
+			let encrypted = await encryptValue(testVal);
+			assert.equal(encrypted,testVal);
+		});
 	});
 	describe('onError:throw',function() {
 		let opts =  {

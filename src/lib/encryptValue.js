@@ -1,4 +1,6 @@
 const typeHandler = require('./typeHandler');
+const CryptoObject = require('./CryptoObject');
+
 /**
  * @alias module:api
  * @description Encrypts (nearly) any value
@@ -32,6 +34,11 @@ const typeHandler = require('./typeHandler');
 const encryptValue = async function(provider,value,opts) {
 	if (!opts) { opts = {};}
 	try {
+		let co = new CryptoObject(value);
+		if (co.isValid()){
+			// value is encrypted allready return the same value.
+			return value;
+		}
 		const dataKey = await provider.generateDataKey();
 		let encObject = typeHandler.forEncryption(value);
 		if (!encObject) {
