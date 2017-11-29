@@ -1,8 +1,8 @@
 {
 	"name": "cryptari",
-	"version": "1.0.0",
-	"description": "",
-	"main": "index.js",
+	"version": "0.1.0",
+	"description": "Envelope Encryption for node.js",
+	"main": "build/index.js",
 	"scripts": {
 		"start": "cross-env node index",
 		"watch": "nodemon --exec npm run start",
