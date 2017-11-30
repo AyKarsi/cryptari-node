@@ -1,6 +1,6 @@
 {
   "name": "cryptari",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Envelope Encryption for node.js",
   "main": "build/index.js",
   "scripts": {
