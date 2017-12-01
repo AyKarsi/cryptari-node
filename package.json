@@ -47,6 +47,7 @@
     "cross-env": "^5.1.1",
     "jsdoc-to-markdown": "^3.0.1",
     "mocha": "^4.0.1",
+    "nodemon": "^1.12.1",
     "proxyquire": "^1.8.0"
   }
 }
