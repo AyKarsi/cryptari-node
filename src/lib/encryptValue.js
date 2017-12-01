@@ -2,8 +2,9 @@ const typeHandler = require('./typeHandler');
 const CryptoObject = require('./CryptoObject');
 
 /**
- * @alias module:api
- * @description Encrypts (nearly) any value
+ * @memberOf Cryptari
+ * @instance
+ * @description Encrypts Strings, Dates, Arrays or Numbers
  *
  * @param {String|Date|Array|Number|Object} Value The unencrypted value. This value must be "stringifyable".
  * @param {Object} [options]

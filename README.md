@@ -55,24 +55,129 @@ But it does protect you from somebody who gained access of your stored data.
 
 ## Installation 
 
-TODO  npm install
+`npm install cryptari --save`
 
 
-## Setup 
 
-### Key Configuration
-If nothing is configured, cryptari-node will use a hardcoded and insecure(!) local master key. 
+## Configuration 
+
+
+If you plan to use only one cryptari instance, all you need to do is set default enviroments variables, as describe in the following sections
+
+### No Options
+
+If no options are given and no environment variables are found, cryptari-node will use a hardcoded and totally insecure local master key. 
 This is fine for local development.
+
+```
+const Cryptari = require('cryptari');
+const cryptari = new Cryptari({local:{masterKey:'A16ByteHexString'}});
+```
+
+### Local Encryption: Provide a Master Key yourself 
+
+
+By either setting the `CRYPTARI_LOCAL_MASTERKEY` environment varaiable or passing the a 16 Byte Hex String key, a cryptari instance will use this key to encrypt and decrypt values.
+
+```
+const Cryptari = require('cryptari');
+const cryptari = new Cryptari({local:{masterKey:'A16ByteHexString'}});
+```
 
 **DO NOT ADD ANY OF THE IDS/SECRETS TO YOUR SOURCE CODE!**
 
 ### Using AWS KMS
-The following environment variables need to be set to use AWS KMS.
 
-- **CRYPTARI_AWS_ACCESS_KEY_ID** The IAM User Id with acccess to the below key
-- **CRYPTARI_AWS_SECRET_ACCESS_KEY** The matching secret of the IAM User
-- **CRYPTARI_AWS_CMK_ID** The Id of the AWS master key
-- **CRYPTARI_AWS_REGION** The region where the above master key is stored
+Cryptari will auto-decect the following environments variables for AWS KMS
+
+
+- `CRYPTARI_AWS_ACCESS_KEY_ID` The IAM User Id with acccess to the below key
+- `CRYPTARI_AWS_SECRET_ACCESS_KEY` The matching secret of the IAM User
+- `CRYPTARI_AWS_CMK_ID` The Id of the AWS master key
+- `CRYPTARI_AWS_REGION` The region where the above master key is stored
+
+Alternatively you can pass an options object as follows: 
+```
+const Cryptari = require('cryptari');
+const cryptari = new Cryptari({
+	aws:{
+		accessKeyId:'...',
+		secretAccessKey:'...',
+		cmkKeyId:'...',
+		region:'...',
+	}
+});
+```
+
+
+## Usage
+
+
+### Encrypt and decrypt a String value
+
+```
+cryptari.encryptValue('Encrypt Me').then((encrypted)=>{		
+	console.log(encrypted);  
+	/// --> _cryptari.7f94f53730b61fd97823d8a8c804d25fc8847505daa8e925b34891bf908d6dad.dc2ec5bcd41a410adbe0.string.4213342259
+	cryptari.decryptValue(encrypted).then((decrypted){
+		console.log(decrypted); 
+		// --> 'Encrypt Me'
+	});
+});
+```
+
+### Encrypt and decrypt a property on a Object
+
+```
+const testObject =  {
+	foo:'Original',
+	bar:'Secret'
+}
+cryptari.encryptObject(testObject,['bar']).then(()=>{		
+	console.log(JSON.stringify(testObject,2,2));  
+	// property bar will be encrypted, property foo will be untouched
+	// -->
+	//	{
+	//	  "foo": "Original",
+	//	  "bar": "_cryptari.7c6400980252c620a45e110b7d11213ab7fb74143603cac7adf834b161521531.a166af24c9c8.string.3137411440"
+	//	}	
+	cryptari.decryptObject(testObject,['bar']).then(()=>{
+		console.log(JSON.stringify(testObject,2,2));  
+		// property bar will be decrypted, property foo will be untouched
+		// -->
+		// 	{
+		//   "foo": "Original",
+		//   "bar": "Secret"
+		// }		
+	});
+});
+```
+
+### Using Generators 
+
+``` 
+const Promise = require('bluebird');
+function testGenerator () {
+	return Promise.coroutine(function*() {
+		let encrypted = yield cryptari.encryptValue('test');
+		console.log(encrypted);
+	})();
+}
+```
+
+### Using Async/Await
+
+``` 
+const Promise = require('bluebird');
+function testGenerator () {
+	return Promise.coroutine(function*() {
+		let encrypted = yield cryptari.encryptValue('test');
+		console.log(encrypted);
+	})();
+}
+```
+
+
 
 ### Error handling 
 

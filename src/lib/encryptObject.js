@@ -2,7 +2,8 @@ const jp = require('jsonpath');
 const _ = require('lodash');
 const typeHandler = require('./typeHandler');
 /**
- * @alias module:api
+ * @memberOf Cryptari
+ * @instance
  * @description Encrypts selected properties on a given object
  * @summary
  * <p>

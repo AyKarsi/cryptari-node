@@ -5,6 +5,10 @@ const encrypt = require('./../encryptValueWithDataKey');
 
 const generateDataKey = async function() {
 	let masterKey = getMasterKey();
+
+	if (typeof masterKey === 'string') {
+		masterKey = aesjs.utils.hex.toBytes(masterKey);
+	}
 	var textBytes = crypto.randomBytes(32);
 	var aesCtr = new aesjs.ModeOfOperation.ctr(masterKey, new aesjs.Counter(5));
 	var encryptedBytes = aesCtr.encrypt(textBytes);

@@ -4,7 +4,8 @@ const typeHandler = require('./typeHandler');
 const CryptoObject = require('./CryptoObject');
 
  /**
- * @alias module:api
+ * @memberOf Cryptari
+ * @instance
  * @description Decrypts selected properties on a given object
  * @summary
  * <p>
