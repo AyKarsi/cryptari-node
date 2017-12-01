@@ -2,7 +2,8 @@ const typeHandler = require('./typeHandler');
 const CryptoObject = require('./CryptoObject');
 
 /**
- * @alias module:api
+ * @memberOf Cryptari
+ * @instance
  * @description Decrypts an encrypted string and returns the original typed value.
  *
  * @param {String} encryptedString the encrypted string

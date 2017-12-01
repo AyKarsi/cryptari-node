@@ -1,33 +1,42 @@
-<a name="module_api"></a>
+<a name="Cryptari"></a>
 
-## api
-<p>
-		Please note: All methods are async and return promises
- </p>
-# Encrypted Values
- <p>
- All values will be encrypted as strings in the following format:
+## Cryptari : <code>object</code>
+creates a new cryptari instance
 
-`_cryptari.[version].[encryptedDataKey].[encryptedValue].[type].[chksum]`
+ ### Instantiation
 
-TODO Describe the properties once implemented
+ ```
+ const Cryptari = require('cryptari);
+ let cryptari = new Cryptari({local:masterKey:'16ByteHexString'});
 
-</p>
+ ```
+
+**Kind**: global namespace  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| [options] | <code>Object</code> |  |
+| [options.aws] | <code>String</code> |  |
+| [options.aws.accessKeyId] | <code>String</code> | The IAM user Access ID (who has access to the below key). If present CRYPTARI_AWS_ACCESS_KEY_ID Env Variable will be given precendence. |
+| [options.aws.secretAccessKey] | <code>String</code> | The matching secret for the IAM user. If present CRYPTARI_AWS_SECRET_ACCESS_KEY Env Variable will be given precendence. |
+| [options.aws.cmkKeyId] | <code>String</code> | The AWS KMS Key Id. If present CRYPTARI_AWS_CMK_ID Env Variable will be given precendence. |
+| [options.aws.region] | <code>String</code> | The region where the AWS KMS key is stored. If present CRYPTARI_AWS_REGION Env Variable will be given precendence. |
+| [options.local] | <code>String</code> |  |
+| [options.local.masterKey] | <code>String</code> | a 16 Byte HexString  used for encrypting locally. If present CRYPTARI_LOCAL_MASTERKEY env variable will be given precedence. |
 
 
-* [api](#module_api)
-    * [decryptObject](#exp_module_api--decryptObject) ⇒ <code>void</code> ⏏
-    * [decryptValue](#exp_module_api--decryptValue) ⇒ <code>String</code> \| <code>Date</code> \| <code>Array</code> \| <code>Number</code> \| <code>Object</code> ⏏
-    * [encryptObject](#exp_module_api--encryptObject) ⇒ <code>void</code> ⏏
-    * [encryptValue](#exp_module_api--encryptValue) ⇒ <code>String</code> ⏏
-    * [module.exports([options])](#exp_module_api--module.exports) ⇒ <code>String</code> ⏏
+* [Cryptari](#Cryptari) : <code>object</code>
+    * [.decryptObject](#Cryptari+decryptObject) ⇒ <code>void</code>
+    * [.decryptValue](#Cryptari+decryptValue) ⇒ <code>String</code> \| <code>Date</code> \| <code>Array</code> \| <code>Number</code> \| <code>Object</code>
+    * [.encryptObject](#Cryptari+encryptObject) ⇒ <code>void</code>
+    * [.encryptValue](#Cryptari+encryptValue) ⇒ <code>String</code>
 
-<a name="exp_module_api--decryptObject"></a>
+<a name="Cryptari+decryptObject"></a>
 
-### decryptObject ⇒ <code>void</code> ⏏
+### cryptari.decryptObject ⇒ <code>void</code>
 Decrypts selected properties on a given object
 
-**Kind**: global property of [<code>api</code>](#module_api)  
+**Kind**: instance property of [<code>Cryptari</code>](#Cryptari)  
 **Summary**: <p>
 	The properties will be decrypted directly on the object.
 </p>
@@ -59,12 +68,12 @@ await encryptObject(obj, ['foo']);
 assert.equal(obj.bar, '456');
 assert.equal(obj.foo '123');
 ```
-<a name="exp_module_api--decryptValue"></a>
+<a name="Cryptari+decryptValue"></a>
 
-### decryptValue ⇒ <code>String</code> \| <code>Date</code> \| <code>Array</code> \| <code>Number</code> \| <code>Object</code> ⏏
+### cryptari.decryptValue ⇒ <code>String</code> \| <code>Date</code> \| <code>Array</code> \| <code>Number</code> \| <code>Object</code>
 Decrypts an encrypted string and returns the original typed value.
 
-**Kind**: global property of [<code>api</code>](#module_api)  
+**Kind**: instance property of [<code>Cryptari</code>](#Cryptari)  
 **Summary**: <p>
 	Returns the unecrypted value of the original type
 </p>
@@ -94,12 +103,12 @@ If an exception occurs:
  let decrypted = await decryptValue(encrypted);
  assert.equal(decrypted.getTime(), today.getTime());
 ```
-<a name="exp_module_api--encryptObject"></a>
+<a name="Cryptari+encryptObject"></a>
 
-### encryptObject ⇒ <code>void</code> ⏏
+### cryptari.encryptObject ⇒ <code>void</code>
 Encrypts selected properties on a given object
 
-**Kind**: global property of [<code>api</code>](#module_api)  
+**Kind**: instance property of [<code>Cryptari</code>](#Cryptari)  
 **Summary**: <p>
 	The objects properties will be encrypted directly. Regarding type conversion and persitance the same rules as for encryptValue apply.
 </p>
@@ -130,12 +139,12 @@ await encryptObject(obj, ['foo']);
 assert.equal(obj.bar, '456');
 assert.equal(obj.foo.indexOf('_cryptari'),0);
 ```
-<a name="exp_module_api--encryptValue"></a>
+<a name="Cryptari+encryptValue"></a>
 
-### encryptValue ⇒ <code>String</code> ⏏
-Encrypts (nearly) any value
+### cryptari.encryptValue ⇒ <code>String</code>
+Encrypts Strings, Dates, Arrays or Numbers
 
-**Kind**: global property of [<code>api</code>](#module_api)  
+**Kind**: instance property of [<code>Cryptari</code>](#Cryptari)  
 **Summary**: <p>
 	Returns an encrypted string of the given value
 </p>
@@ -165,18 +174,3 @@ let encrypted = await encryptValue(someValue);
  assert.equal(typeof encrypted,'string');
  assert.equal(encrypted.indexOf('_cryptari'),0);
 ```
-<a name="exp_module_api--module.exports"></a>
-
-### module.exports([options]) ⇒ <code>String</code> ⏏
-creates a new cryptari instance
-
-**Kind**: global method of [<code>api</code>](#module_api)  
-
-| Param | Type |
-| --- | --- |
-| [options] | <code>Object</code> | 
-| [options.aws] | <code>String</code> | 
-| [options.aws.accessKeyId] | <code>String</code> | 
-| [options.aws.secretAccessKey] | <code>String</code> | 
-| [options.aws.region] | <code>String</code> | 
-
