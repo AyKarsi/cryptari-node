@@ -12,6 +12,8 @@ const LocalDecrypt = require('./local/localDecrypt');
  * @param {String} [options.aws.accessKeyId]
  * @param {String} [options.aws.secretAccessKey]
  * @param {String} [options.aws.region]
+ * @param {String} [options.local]
+ * @param {String} [options.local.masterKey]
  * @returns {String}
  */
 module.exports = function(config){
